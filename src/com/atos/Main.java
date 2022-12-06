@@ -11,6 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        String[][] Spielfeld = new String[8][8];
 
         Scanner scanner = new Scanner(System.in);
         String von;
@@ -46,13 +47,13 @@ public class Main {
 
                 System.out.println("Aktueller Spielstand = "+ defaultFenString);
 
-                System.out.println("Gib deinen Zug an:");
+                System.out.print("Gib deinen Zug an:");
                 input = scanner.nextLine();
 
                 von = input.substring(0,2);
                 zu = input.substring(3,5);
                 System.out.println(von);
-                System.out.println(zu); //asdasdas
+                System.out.println(zu);
 
             } while (!input.equals(""));
 
