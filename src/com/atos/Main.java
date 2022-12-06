@@ -16,7 +16,7 @@ public class Main {
 
             String input;
             do {
-                System.out.print("Zugfolg\ne:");
+                System.out.print("Zugfolgweere\ne:");
                 input = scanner.nextLine();
                 von = input.substring(0,2);
                 zu = input.substring(3,5);
