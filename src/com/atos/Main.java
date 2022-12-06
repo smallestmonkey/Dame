@@ -3,6 +3,7 @@ package com.atos;
 import com.atos.exceptions.InvalidMoveException;
 
 import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -39,6 +40,9 @@ public class Main {
                     String fen = scanner.nextLine();
                     defaultFenString = fen;
                 }
+
+
+                Game.readFEN(defaultFenString);
 
                 System.out.println("Aktueller Spielstand = "+ defaultFenString);
 
