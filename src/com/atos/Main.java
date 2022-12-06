@@ -16,8 +16,8 @@ public class Main {
 
             String input;
             do {
-                System.out.print("Zugfolge:");
-                input = scanner.nextLine();
+                System.out.print("Zugfolge:"); //MOIN IHR SÄCKE
+                input = scanner.nextLine(); // Moin moin
                 von = input.substring(0,2);
                 zu = input.substring(3,5);
                 System.out.println(von);
