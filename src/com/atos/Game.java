@@ -56,6 +56,7 @@ public class Game extends Observable {
         Field from = this.board.getField(fields[0]);
         Field to = this.board.getField(fields[1]);
 
+
         boolean isMoveDiagonal = Math.abs(from.getX() - to.getX()) == Math.abs(from.getY() - to.getY());
         if (from.isEmpty() || !to.isEmpty() || !isMoveDiagonal) {
             throw new InvalidMoveException();
@@ -79,6 +80,40 @@ public class Game extends Observable {
         // switch player
         this.currentPlayer = this.currentPlayer.getColor() == this.players[0].getColor() ? this.players[1] : this.players[0];
     }
+
+    public void advance(Field from, Field to)throws InvalidMoveException, InvalidPlayerException, NoMoveException {
+        // String[] fields = move.split("-");
+
+        //    Field from = this.board.getField(fields[0]);
+        //    Field to = this.board.getField(fields[1]);
+
+        boolean isMoveDiagonal = Math.abs(from.getX() - to.getX()) == Math.abs(from.getY() - to.getY());
+        if (from.isEmpty() || !to.isEmpty() || !isMoveDiagonal) {
+            throw new InvalidMoveException();
+        }
+
+        if (from.getGamePiece().getColor() != this.currentPlayer.getColor()) {
+            throw new InvalidPlayerException();
+        }
+
+        if (from.equals(to)) {
+            throw new NoMoveException();
+        }
+
+        Move m = new Move(this.currentPlayer, from, to);
+        this.moves.add(m);
+
+        to.setGamePiece(from.getGamePiece());
+        from.setGamePiece(null);
+        // TODO check if game piece is captured
+
+        // switch player
+        this.currentPlayer = this.currentPlayer.getColor() == this.players[0].getColor() ? this.players[1] : this.players[0];
+        setChanged();
+        notifyObservers();
+
+    }
+
 
     public String toFenString() {
         return this.board.toFenString() + " " + this.currentPlayer.toFenChar();
@@ -106,9 +141,37 @@ public class Game extends Observable {
     }
 
     public void setSelection(Field selection) {
+        while(this.optionsSelection.size() > 0) {
+            optionsSelection.remove(0);
+        }
         this.selection = selection;
-
+        setOptionsSelection();
         setChanged();
         notifyObservers();
     }
+    public ArrayList<Field> getOptionsSelection() { return optionsSelection; }
+    protected ArrayList<Field> optionsSelection = new ArrayList<>();
+    public void setOptionsSelection() {
+
+        int x = this.selection.getX();
+        int y = this.selection.getY();
+        System.out.println(this.selection.getColor());
+        if (currentPlayer.getColor() == CheckersColor.WHITE && selection.getGamePiece().getColor() == CheckersColor.WHITE) {
+            int d1x = x-1;
+            int d1y = y-1;
+            if (d1x < 8 && d1x >= 0 && d1y >=0 && d1y < 8) {
+
+                this.optionsSelection.add(this.board.getField(d1x, d1y));
+            }
+            int d2x = x+1;
+            int d2y = y-1;
+            if (d2x < 8 && d2x >= 0 && d2y >=0 && d2y < 8) {
+                this.optionsSelection.add(this.board.getField(d2x, d2y));
+            }
+
+        }
+
+    }
+
+
 }
