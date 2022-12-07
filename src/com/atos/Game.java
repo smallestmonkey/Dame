@@ -11,6 +11,11 @@ import java.util.Observable;
 public class Game extends Observable {
     protected Board board;
 
+    public boolean ismoved = false;
+
+    protected int d1x ,d1y ,d2x, d2y;
+
+
     protected Player[] players = new Player[2];
 
     protected Player currentPlayer;
@@ -106,7 +111,7 @@ public class Game extends Observable {
         to.setGamePiece(from.getGamePiece());
         from.setGamePiece(null);
         // TODO check if game piece is captured
-
+        ismoved = true;
         // switch player
         this.currentPlayer = this.currentPlayer.getColor() == this.players[0].getColor() ? this.players[1] : this.players[0];
         setChanged();
@@ -157,20 +162,30 @@ public class Game extends Observable {
         int y = this.selection.getY();
         System.out.println(this.selection.getColor());
         if (currentPlayer.getColor() == CheckersColor.WHITE && selection.getGamePiece().getColor() == CheckersColor.WHITE) {
-            int d1x = x-1;
-            int d1y = y-1;
-            if (d1x < 8 && d1x >= 0 && d1y >=0 && d1y < 8) {
-
+            d1x = x-1;
+            d1y = y-1;
+            d2x = x+1;
+            d2y = y-1;
+        }
+        else if (currentPlayer.getColor() == CheckersColor.BLACK && selection.getGamePiece().getColor() == CheckersColor.BLACK) {
+            d1x = x-1;
+            d1y = y+1;
+            d2x = x+1;
+            d2y = y+1;
+        }
+        if (d1x < 8 && d1x >= 0 && d1y >=0 && d1y < 8) {
+            if (this.board.getField(d1x, d1y).getGamePiece()  == null) {
                 this.optionsSelection.add(this.board.getField(d1x, d1y));
             }
-            int d2x = x+1;
-            int d2y = y-1;
-            if (d2x < 8 && d2x >= 0 && d2y >=0 && d2y < 8) {
-                this.optionsSelection.add(this.board.getField(d2x, d2y));
-            }
-
         }
 
+
+        if (d2x < 8 && d2x >= 0 && d2y >=0 && d2y < 8) {
+            if (this.board.getField(d2x, d2y).getGamePiece() == null) {
+
+                this.optionsSelection.add(this.board.getField(d2x, d2y));
+            }
+        }
     }
 
 

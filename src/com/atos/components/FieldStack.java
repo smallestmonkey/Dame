@@ -3,6 +3,7 @@ package com.atos.components;
 import com.atos.Field;
 import com.atos.Game;
 import com.atos.Move;
+import com.atos.controllers.MainWindowController;
 import com.atos.exceptions.InvalidMoveException;
 import com.atos.exceptions.InvalidPlayerException;
 import com.atos.exceptions.NoMoveException;
@@ -97,13 +98,24 @@ public class FieldStack extends StackPane implements Observer {
             } else {
                 rectangle.setFill(color);
             }
-            for (int i = 0; i<game.getOptionsSelection().toArray().length; i++) {
-                if (field.equals(game.getOptionsSelection().get(i))){
+            for (int i = 0; i < game.getOptionsSelection().toArray().length; i++) {
+                if (field.equals(game.getOptionsSelection().get(i))) {
                     rectangle.setFill(Color.ORANGE);
                 }
             }
         }
-        text.setText(field.isEmpty()? "" : String.valueOf(field.getGamePiece().getUnicode()));
+        text.setText(field.isEmpty() ? "" : String.valueOf(field.getGamePiece().getUnicode()));
+        if (game.ismoved == true) {
+            if (field.equals(game.getSelection())) {
+                game.ismoved = false;
+                rectangle.setFill(Color.LIGHTGRAY);
+            }
+            for (int i = 0; i < game.getOptionsSelection().toArray().length; i++) {
+                if (field.equals(game.getOptionsSelection().get(i))) {
+                    rectangle.setFill(Color.LIGHTGRAY);
+                }
+            }
 
+        }
     }
 }

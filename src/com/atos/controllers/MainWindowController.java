@@ -13,8 +13,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class MainWindowController {
+public class MainWindowController implements Observer {
     @FXML
     private StackPane boardPane;
 
@@ -43,6 +45,7 @@ public class MainWindowController {
         updateInfoLabel();
 
         // TODO observer
+        game.addObserver(this);
 
         boardController.drawGame(game);
     }
@@ -56,10 +59,17 @@ public class MainWindowController {
     }
 
     public void updateInfoLabel() {
-        playerLabel.setText((game.getCurrentPlayer().getColor() == CheckersColor.WHITE ? "Weiß" : "Schwarz") + " ist dran");
+        if (game.ismoved== true) {
+            playerLabel.setText((game.getCurrentPlayer().getColor() == CheckersColor.WHITE ? "Weiß" : "Schwarz") + " ist dran");
+        }
     }
 
     public void setMainStage(final Stage stage) {
         mainStage = stage;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        updateInfoLabel();
     }
 }
