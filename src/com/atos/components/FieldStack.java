@@ -40,6 +40,7 @@ public class FieldStack extends StackPane implements Observer {
 
             if (!field.isEmpty()) {
                 System.out.println(field.getGamePiece().getUnicode());
+                System.out.println(field.getX()+" "+ field.getY());
             }
 
             boolean shouldSelectField = !game.hasSelection() && !field.isEmpty();
