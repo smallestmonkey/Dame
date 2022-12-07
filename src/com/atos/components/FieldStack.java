@@ -39,7 +39,11 @@ public class FieldStack extends StackPane implements Observer {
             // Hier muss alles programmiert werden was passieren soll wenn auf eine Figur geklickt wird.
 
             if (!field.isEmpty()) {
-                System.out.println(field.getGamePiece().getUnicode());
+                Field von = field;
+
+                System.out.println(game.getBoard());
+
+
                 System.out.println(field.getX()+" "+ field.getY());
             }
 
@@ -48,13 +52,17 @@ public class FieldStack extends StackPane implements Observer {
 
             if (shouldSelectField) {
                 game.setSelection(field);
+
             } else if (shouldChangeSelectedField) {
                 game.setSelection(field);
+
             }
         });
 
         if (!field.isEmpty()) {
             text = new Text(String.valueOf(field.getGamePiece().getUnicode()));
+            System.out.println(text);
+
         }
 
         text.setScaleX(3);
@@ -68,9 +76,16 @@ public class FieldStack extends StackPane implements Observer {
         if (game.hasSelection()) {
             if (field.equals(game.getSelection())) {
                 rectangle.setFill(Color.FUCHSIA);
-            } else {
+            }
+            else {
                 rectangle.setFill(color);
             }
+            for (int i = 0; i<game.getOptionsSelection().toArray().length; i++) {
+                if (field.equals(game.getOptionsSelection().get(i))){
+                    rectangle.setFill(Color.ORANGE);
+                }
+            }
+
         }
     }
 }
