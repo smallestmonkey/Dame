@@ -59,9 +59,9 @@ public class MainWindowController implements Observer {
     }
 
     public void updateInfoLabel() {
-        if (game.ismoved== true) {
+
             playerLabel.setText((game.getCurrentPlayer().getColor() == CheckersColor.WHITE ? "Weiß" : "Schwarz") + " ist dran");
-        }
+
     }
 
     public void setMainStage(final Stage stage) {
