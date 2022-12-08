@@ -2,6 +2,10 @@ package com.atos.components;
 
 import com.atos.Field;
 import com.atos.Game;
+import com.atos.GamePiece;
+import com.atos.exceptions.InvalidMoveException;
+import com.atos.exceptions.InvalidPlayerException;
+import com.atos.exceptions.NoMoveException;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -12,6 +16,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class FieldStack extends StackPane implements Observer {
+
+    int xFrom,yFrom,xTo,yTo;
     private Rectangle rectangle;
     private Text text;
     private Color color;
@@ -38,9 +44,26 @@ public class FieldStack extends StackPane implements Observer {
         setOnMouseClicked(event -> {
             // Hier muss alles programmiert werden was passieren soll wenn auf eine Figur geklickt wird.
 
-            if (!field.isEmpty()) {
-                Field von = field;
+            System.out.println(game.getBoard().toFenString());
 
+            if (field.isEmpty()) {
+
+                System.out.println(game.getSelection().getX()+ " " + game.getSelection().getY());
+
+                Field to = field;
+
+
+                try {
+
+                    game.advance(game.getSelection(), to);
+
+                } catch (InvalidMoveException e){
+                    throw new RuntimeException(e);
+                } catch (InvalidPlayerException e) {
+                    throw new RuntimeException(e);
+                } catch (NoMoveException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
 
@@ -82,6 +105,21 @@ public class FieldStack extends StackPane implements Observer {
                     rectangle.setFill(Color.ORANGE);
                 }
             }
+
+            text.setText(field.isEmpty() ? "" : String.valueOf(field.getGamePiece().getUnicode()));
+
+            if (game.ismoved == true) {
+                if (!field.equals(game.getSelection())) {
+                    game.ismoved = false;
+                    rectangle.setFill(Color.LIGHTGRAY);
+                }
+                for (int i = 0; i < game.getOptionsSelection().toArray().length; i++) {
+                    if (field.equals(game.getOptionsSelection().get(i))) {
+                        rectangle.setFill(Color.LIGHTGRAY);
+                    }
+                }
+            }
+
 
         }
     }
