@@ -1,1 +1,1 @@
-Dame game with java
+Dame Game in Java
